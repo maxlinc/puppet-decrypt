@@ -1,6 +1,5 @@
 require "puppet-decrypt/version"
 require "puppet-decrypt/decryptor"
-require "puppet/parser/functions/decryptor"
 require 'encryptor'
 require 'base64'
 
