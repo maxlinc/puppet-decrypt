@@ -4,7 +4,6 @@ $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require 'puppet-decrypt/version'
 
 puppet_version = ENV['PUPPET_VERSION']
-puts "Using Puppet version #{puppet_version}"
 
 Gem::Specification.new do |gem|
   gem.name          = "puppet-decrypt"
