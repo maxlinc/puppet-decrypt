@@ -1,3 +1,7 @@
+[![Build Status](https://secure.travis-ci.org/maxlinc/puppet-decrypt.png?branch=master)](http://travis-ci.org/maxlinc/puppet-decrypt)
+[![Dependency Status](https://gemnasium.com/maxlinc/puppet-decrypt.png?travis)](https://gemnasium.com/maxlinc/puppet-decrypt)
+[![Code Climate](https://codeclimate.com/github/maxlinc/puppet-decrypt.png)](https://codeclimate.com/github/maxlinc/puppet-decrypt)
+
 # Puppet::Decrypt
 
 TODO: Write a gem description
