@@ -3,8 +3,6 @@ lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require 'puppet-decrypt/version'
 
-puppet_version = ENV['PUPPET_VERSION']
-
 Gem::Specification.new do |gem|
   gem.name          = "puppet-decrypt"
   gem.version       = Puppet::Decrypt::VERSION
@@ -20,11 +18,6 @@ Gem::Specification.new do |gem|
   gem.require_paths = ["lib"]
 
   gem.add_dependency('encryptor')
-  if puppet_version.nil?
-    gem.add_dependency('puppet')
-  else
-    gem.add_dependency('puppet', puppet_version) # "~> #{puppet_version}")
-  end
   gem.add_development_dependency('rake')
   gem.add_development_dependency('rspec')
   gem.add_development_dependency('rspec-puppet')

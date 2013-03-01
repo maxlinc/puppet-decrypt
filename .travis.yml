@@ -10,7 +10,7 @@ rvm:
   - jruby-head
   - 1.8.7
   - ree
-env:
-  - "PUPPET_VERSION=3.1"
-  - "PUPPET_VERSION=3.0"
-  - "PUPPET_VERSION=2.7"
+gemfile:
+  - Gemfile
+  - bundles/puppet_3_0.gemfile
+  - bundles/puppet_2_7.gemfile
