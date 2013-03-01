@@ -38,7 +38,7 @@ module Puppet
         return Base64.strict_decode64(str) if Base64.respond_to? :base64
 
         unless str.include?("\n")
-          decode64(str)
+          Base64.decode64(str)
         else
           raise(ArgumentError,"invalid base64")
         end
