@@ -4,6 +4,8 @@
 
 # Puppet::Decrypt
 
+Puppet Decrypt is a gem that gives puppet the ability to encrypt and decrypt strings.  This is useful for making sure secret data - like database passwords - remains secret.
+
 TODO: Write a gem description
 
 ## Installation
