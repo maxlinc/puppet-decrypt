@@ -38,12 +38,19 @@ Or install it yourself as:
 
 ## Usage
 
-Call encrytor with just a value to encrypt.
+Put the secret key in /etc/encryptor_secret_key on machines where puppet needs to decrypt the value.  Make sure the file's read permissions are restricted!
+
+Use the puppet face to encrypt a value
 
 ``` shell
-$ encryptor my_secret_value
-Secret Key: (enter your master password)
+$ puppet face crypt encrypt my_secret_value
 ENC[ANN3I3AWxXWmr5QAW3qgxw==]
+```
+
+Or to decrypt a value
+``` shell
+$ puppet face crypt decrypt ENC[ANN3I3AWxXWmr5QAW3qgxw==]
+my_secret_value
 ```
 
 Put that value into hiera, extlookup, or any other data source you want.  Hiera example:
@@ -54,16 +61,6 @@ database_password: ENC[ANN3I3AWxXWmr5QAW3qgxw==]
 In your puppet code, load the value normally and then pass it to decrypt.
 ``` ruby
 decrypt(hiera('database_password'))
-```
-
-Put the secret key in /etc/encryptor_secret_key on machines where puppet needs to decrypt the value.  Make sure the file's read permissions are restricted!
-
-Call encryptor with -d to decrypt an existing value.
-
-``` shell
-$ encryptor -d ENC[ANN3I3AWxXWmr5QAW3qgxw==]
-Secret Key: (enter your master password)
-my_secret_value
 ```
 
 ## Contributing

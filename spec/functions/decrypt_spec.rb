@@ -2,7 +2,7 @@
 require 'spec_helper'
 
 describe 'decrypt' do
-  before(:each) do
+  before(:all) do
     Puppet::Decrypt::Decryptor.should_receive(:secret_key).and_return('masterkey')
   end
 
