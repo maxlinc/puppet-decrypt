@@ -43,13 +43,13 @@ Put the secret key in /etc/encryptor_secret_key on machines where puppet needs t
 Use the puppet face to encrypt a value
 
 ``` shell
-$ puppet face crypt encrypt my_secret_value
+$ puppet crypt encrypt my_secret_value
 ENC[ANN3I3AWxXWmr5QAW3qgxw==]
 ```
 
 Or to decrypt a value
 ``` shell
-$ puppet face crypt decrypt ENC[ANN3I3AWxXWmr5QAW3qgxw==]
+$ puppet crypt decrypt ENC[ANN3I3AWxXWmr5QAW3qgxw==]
 my_secret_value
 ```
 
