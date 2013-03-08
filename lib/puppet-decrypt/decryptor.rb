@@ -46,7 +46,7 @@ module Puppet
         #   This method complies with RFC 4648.
         #
         def self.strict_decode64(str)
-          return Base64.strict_decode64(str) if Base64.respond_to? :base64
+          return Base64.strict_decode64(str) if Base64.respond_to? :strict_decode64
 
           unless str.include?("\n")
             Base64.decode64(str)
