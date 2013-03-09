@@ -38,7 +38,7 @@ Puppet::Face.define(:crypt, Puppet::Decrypt::VERSION) do
     summary 'Decrypt a secret value.'
     arguments "<encrypted_secret>"
     description <<-EOT
-      This action encrypts a value using the secret key.
+      This action decrypts a value using the secret key.
     EOT
     when_invoked do |encrypted_secret, options|
       raw = options[:raw] ||= false
