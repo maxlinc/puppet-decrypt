@@ -15,7 +15,7 @@ Puppet::Face.define(:crypt, Puppet::Decrypt::VERSION) do
   option "--raw" do
     summary  "Use raw parse/display"
     description <<-'EOT'
-      Parse or display the value in raw format, instead of using ENC(...) block
+      Parse or display the value in raw format, instead of using ENC[...] block
     EOT
   end
 
@@ -26,11 +26,8 @@ Puppet::Face.define(:crypt, Puppet::Decrypt::VERSION) do
       This action encrypts a value using the secret key.
     EOT
     when_invoked do |plaintext_secret, options|
-      output = StringIO.new
-      output << "ENC[" unless options[:raw]
-      output << Puppet::Decrypt::Decryptor.encrypt(plaintext_secret)
-      output << "]" unless options[:raw]
-      output.string
+      raw = options[:raw] ||= false
+      Puppet::Decrypt::Decryptor.encrypt(plaintext_secret, raw)
     end
   end
 

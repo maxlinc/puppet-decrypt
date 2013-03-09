@@ -16,11 +16,11 @@ module Puppet
         value
       end
 
-      def self.encrypt(value)
+      def self.encrypt(value, raw = false)
         result = value.encrypt(:key => secret_key_digest)
         encrypted_value = strict_encode64(result).strip
         raise "Value can't be encrypted properly" unless decrypt(encrypted_value, true) == value
-        encrypted_value
+        raw ? encrypted_value : "ENC[#{encrypted_value}]"
       end
 
       private
@@ -29,7 +29,7 @@ module Puppet
         Digest::SHA256.hexdigest(secret_key)
       end
 
-      # Backported for ruby 1.8.7 
+      # Backported for ruby 1.8.7
       def self.strict_decode64(str)
         return Base64.strict_decode64(str) if Base64.respond_to? :strict_decode64
 
