@@ -19,6 +19,10 @@ Puppet::Face.define(:crypt, Puppet::Decrypt::VERSION) do
     EOT
   end
 
+  option "--secretkey SECRET_KEY_PATH" do
+    summary "The path to the secret key file (default: #{Puppet::Decrypt::Decryptor::DEFAULT_FILE}"
+  end
+
   action :encrypt do
     summary 'Encrypt a secret value.'
     arguments "<plaintext_secret>"

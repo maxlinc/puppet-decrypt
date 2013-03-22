@@ -6,6 +6,7 @@ module Puppet
       DEFAULT_FILE = '/etc/encryptor_secret_key'
 
       def initialize(options = {})
+        @secret_file = options[:secretkey] || DEFAULT_FILE
         @raw = options[:raw] || false
       end
 
@@ -33,8 +34,8 @@ module Puppet
       end
 
       def secret_key
-        raise "Secret key file: #{DEFAULT_FILE} is not readable!" unless File.readable?(DEFAULT_FILE)
-        File.open(DEFAULT_FILE, &:readline).chomp
+        raise "Secret key file: #{@secret_file} is not readable!" unless File.readable?(@secret_file)
+        File.open(@secret_file, &:readline).chomp
       end
 
       # Backported for ruby 1.8.7
