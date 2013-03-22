@@ -4,17 +4,17 @@ require 'stringio'
 
 Puppet::Face.define(:crypt, Puppet::Decrypt::VERSION) do
   copyright "Max Lincoln", 2013
-  license   "TBD"
+  license   "MIT; see LICENSE"
 
   summary "Encrypt or decrypt secret values."
-  description <<-'EOT'
+  description <<-EOT
     This subcommand provides a command line interface to encrypt or decrypt values
     that are intended for use with the puppet decrypt function.
   EOT
 
   option "--raw" do
     summary  "Use raw parse/display"
-    description <<-'EOT'
+    description <<-EOT
       Parse or display the value in raw format, instead of using ENC[...] block
     EOT
   end
@@ -26,8 +26,7 @@ Puppet::Face.define(:crypt, Puppet::Decrypt::VERSION) do
       This action encrypts a value using the secret key.
     EOT
     when_invoked do |plaintext_secret, options|
-      raw = options[:raw] ||= false
-      Puppet::Decrypt::Decryptor.encrypt(plaintext_secret, raw)
+      Puppet::Decrypt::Decryptor.new(options).encrypt(plaintext_secret)
     end
   end
 
@@ -38,8 +37,7 @@ Puppet::Face.define(:crypt, Puppet::Decrypt::VERSION) do
       This action decrypts a value using the secret key.
     EOT
     when_invoked do |encrypted_secret, options|
-      raw = options[:raw] ||= false
-      Puppet::Decrypt::Decryptor.decrypt(encrypted_secret, raw)
+      Puppet::Decrypt::Decryptor.new(options).decrypt(encrypted_secret)
     end
   end
 end

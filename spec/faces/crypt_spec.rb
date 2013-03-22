@@ -1,10 +1,10 @@
+# -*- encoding : utf-8 -*-
 require 'spec_helper'
 require 'puppet/face'
-require 'puppet-decrypt'
 
 describe Puppet::Face[:crypt, :current] do
   before :all do
-    Puppet::Decrypt::Decryptor.should_receive(:secret_key).and_return('masterkey')
+    mock_secret_key(Puppet::Decrypt::Decryptor::DEFAULT_FILE, 'masterkey')
   end
 
   describe 'encrypt' do

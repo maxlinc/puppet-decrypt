@@ -3,7 +3,7 @@ require 'spec_helper'
 
 describe 'decrypt' do
   before(:all) do
-    Puppet::Decrypt::Decryptor.should_receive(:secret_key).and_return('masterkey')
+    mock_secret_key(Puppet::Decrypt::Decryptor::DEFAULT_FILE, 'masterkey')
   end
 
   let(:node) { 'testhost.example.com' }
@@ -11,14 +11,12 @@ describe 'decrypt' do
   let(:pre_condition) { "$extlookup_datadir = '#{extdata_path}' $extlookup_precedence = ['common', 'env_vagrant']" }
 
   context "unencrypted key" do
-    it { should run.with_params('blah').and_return(
-      "blah")
-    }
+    it { should run.with_params('blah').and_return("blah") }
   end
 
   context "encrypted key" do
-    it "should decrypt exact matches" do should run.with_params('ENC[3xzy8fiXlaJqv3m+aXIJNA==]').and_return(
-      "flabberghaster")
+    it "should decrypt exact matches" do
+      should run.with_params('ENC[3xzy8fiXlaJqv3m+aXIJNA==]').and_return("flabberghaster")
     end
 
     it "should not decrypt partial matches" do
