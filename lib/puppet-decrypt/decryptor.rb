@@ -3,7 +3,9 @@ module Puppet
 
     class Decryptor
       ENCRYPTED_PATTERN = /^ENC\[(.*)\]$/
-      DEFAULT_FILE = '/etc/encryptor_secret_key'
+      KEY_DIR = '/etc/puppet-decrypt'
+      DEFAULT_KEY = 'encryptor_secret_key'
+      DEFAULT_FILE = File.join(KEY_DIR, DEFAULT_KEY)
 
       def initialize(options = {})
         @secret_file = options[:secretkey] || DEFAULT_FILE
