@@ -24,14 +24,30 @@ describe 'decrypt' do
     end
   end
 
+  context "with secret key in string" do
+    it "should decrypt exact matches" do
+      mock_secret_key('/etc/puppet-decrypt/another_key', 'anotherkey')
+      should run.with_params('ENC:another_key[8MaZYHPdj9IpnzcuBLlMdg==]').and_return('flabberghaster')
+    end
+
+    it "should not decrypt partial matches" do
+      should run.with_params('fooENC:max[3xzy8fiXlaJqv3m+aXIJNA==]bar').and_return('fooENC:max[3xzy8fiXlaJqv3m+aXIJNA==]bar')
+    end
+  end
+
   context "with secret key file" do
     it "should decrypt exact matches" do
       mock_secret_key('/etc/another_key', 'anotherkey')
       should run.with_params('ENC[8MaZYHPdj9IpnzcuBLlMdg==]', '/etc/another_key').and_return('flabberghaster')
     end
 
+    it "should override a key in the string" do
+      mock_secret_key('/etc/another_key', 'anotherkey')
+      should run.with_params('ENC:max[8MaZYHPdj9IpnzcuBLlMdg==]', '/etc/another_key').and_return('flabberghaster')
+    end
+
     it "should not decrypt partial matches" do
-      should run.with_params('fooENC[3xzy8fiXlaJqv3m+aXIJNA==]bar', 'etc/another_key').and_return('fooENC[3xzy8fiXlaJqv3m+aXIJNA==]bar')
+      should run.with_params('fooENC[3xzy8fiXlaJqv3m+aXIJNA==]bar', '/etc/another_key').and_return('fooENC[3xzy8fiXlaJqv3m+aXIJNA==]bar')
     end
   end
 

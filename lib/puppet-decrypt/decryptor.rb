@@ -2,42 +2,58 @@ module Puppet
   module Decrypt
 
     class Decryptor
-      ENCRYPTED_PATTERN = /^ENC\[(.*)\]$/
+      ENCRYPTED_PATTERN = /^ENC:?(?<key>\w*)\[(?<value>.*)\]$/
       KEY_DIR = '/etc/puppet-decrypt'
       DEFAULT_KEY = 'encryptor_secret_key'
       DEFAULT_FILE = File.join(KEY_DIR, DEFAULT_KEY)
 
       def initialize(options = {})
-        @secret_file = options[:secretkey] || DEFAULT_FILE
         @raw = options[:raw] || false
       end
 
-      def decrypt(value)
-        value = "ENC[#{value}]" if @raw
-        if value =~ ENCRYPTED_PATTERN
-          value = $~[1]
+      def decrypt(value, secret_key_file)
+        secret_key_file ||= secret_key_for value
+        secret_key_digest = digest_from secret_key_file
+        if @raw
+          match = true
+        else
+          match = value.match(ENCRYPTED_PATTERN)
+          if match
+            value = match[:value]
+          end
+        end
+        if match
           value = strict_decode64(value)
           value = value.decrypt(:key => secret_key_digest)
         end
         value
       end
 
-      def encrypt(value)
+      def encrypt(value, secret_key_file = nil)
+        secret_key_file ||= secret_key_for value
+        secret_key_digest = digest_from secret_key_file
         result = value.encrypt(:key => secret_key_digest)
         encrypted_value = strict_encode64(result).strip
         encrypted_value = "ENC[#{encrypted_value}]" unless @raw
-        raise "Value can't be encrypted properly" unless decrypt(encrypted_value) == value
+        raise "Value can't be encrypted properly" unless decrypt(encrypted_value, secret_key_file) == value
         encrypted_value
       end
 
       private
-      def secret_key_digest
-        Digest::SHA256.hexdigest(secret_key)
+      def secret_key_for(value)
+        match = value.match(ENCRYPTED_PATTERN)
+        if match
+          key = match[:key]
+          key = DEFAULT_KEY if key.empty?
+        end
+        key ||= DEFAULT_KEY
+        File.join(KEY_DIR, key)
       end
 
-      def secret_key
-        raise "Secret key file: #{@secret_file} is not readable!" unless File.readable?(@secret_file)
-        File.open(@secret_file, &:readline).chomp
+      def digest_from(secret_key_file)
+        raise "Secret key file: #{secret_key_file} is not readable!" unless File.readable?(secret_key_file)
+        secret_key = File.open(secret_key_file, &:readline).chomp
+        Digest::SHA256.hexdigest(secret_key)
       end
 
       # Backported for ruby 1.8.7

@@ -30,7 +30,8 @@ Puppet::Face.define(:crypt, Puppet::Decrypt::VERSION) do
       This action encrypts a value using the secret key.
     EOT
     when_invoked do |plaintext_secret, options|
-      Puppet::Decrypt::Decryptor.new(options).encrypt(plaintext_secret)
+      secretkey = options[:secretkey]
+      Puppet::Decrypt::Decryptor.new(options).encrypt(plaintext_secret, secretkey)
     end
   end
 
@@ -41,7 +42,8 @@ Puppet::Face.define(:crypt, Puppet::Decrypt::VERSION) do
       This action decrypts a value using the secret key.
     EOT
     when_invoked do |encrypted_secret, options|
-      Puppet::Decrypt::Decryptor.new(options).decrypt(encrypted_secret)
+      secretkey = options[:secretkey]
+      Puppet::Decrypt::Decryptor.new(options).decrypt(encrypted_secret, secretkey)
     end
   end
 end
