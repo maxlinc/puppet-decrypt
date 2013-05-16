@@ -1,0 +1,8 @@
+---
+:backends: yaml
+:yaml:
+  :datadir: features/fixtures/data
+:hierarchy:
+  - '%{::hiera_file}'
+  - common
+:logger: console

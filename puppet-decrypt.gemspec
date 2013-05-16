@@ -20,6 +20,8 @@ Gem::Specification.new do |gem|
 
   gem.add_dependency('encryptor')
   gem.add_development_dependency('rake')
+  gem.add_development_dependency('cucumber')
+  gem.add_development_dependency('relish')
   gem.add_development_dependency('rspec')
   gem.add_development_dependency('rspec-puppet')
   gem.add_development_dependency('puppetlabs_spec_helper')
