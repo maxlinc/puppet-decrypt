@@ -38,17 +38,16 @@ describe 'decrypt' do
   context "with secret key file" do
     it "should decrypt exact matches" do
       mock_secret_key('/etc/another_key', 'anotherkey')
-      should run.with_params('ENC[8MaZYHPdj9IpnzcuBLlMdg==]', '/etc/another_key').and_return('flabberghaster')
+      should run.with_params({ 'value' => 'ENC[8MaZYHPdj9IpnzcuBLlMdg==]', 'secretkey' => '/etc/another_key'}).and_return('flabberghaster')
     end
 
     it "should override a key in the string" do
       mock_secret_key('/etc/another_key', 'anotherkey')
-      should run.with_params('ENC:max[8MaZYHPdj9IpnzcuBLlMdg==]', '/etc/another_key').and_return('flabberghaster')
+      should run.with_params({ 'value' => 'ENC:max[8MaZYHPdj9IpnzcuBLlMdg==]', 'secretkey' => '/etc/another_key'}).and_return('flabberghaster')
     end
 
     it "should not decrypt partial matches" do
-      should run.with_params('fooENC[3xzy8fiXlaJqv3m+aXIJNA==]bar', '/etc/another_key').and_return('fooENC[3xzy8fiXlaJqv3m+aXIJNA==]bar')
+      should run.with_params({ 'value' => 'fooENC[3xzy8fiXlaJqv3m+aXIJNA==]bar', 'secretkey' => '/etc/another_key'}).and_return('fooENC[3xzy8fiXlaJqv3m+aXIJNA==]bar')
     end
   end
-
 end

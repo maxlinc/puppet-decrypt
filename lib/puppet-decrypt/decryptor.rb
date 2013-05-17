@@ -11,6 +11,11 @@ module Puppet
         @raw = options[:raw] || false
       end
 
+      def decrypt_hash(hash)
+        puts "Decrypting value: #{hash['value']}, secretkey: #{hash['secretkey']}"
+        decrypt(hash['value'], hash['secretkey'])
+      end
+
       def decrypt(value, secret_key_file)
         secret_key_file ||= secret_key_for value
         secret_key_digest = digest_from secret_key_file
