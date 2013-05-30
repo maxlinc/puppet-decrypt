@@ -14,7 +14,11 @@ When /^I execute this puppet manifest:$/ do |manifest|
     file.close
     ENV['FACTER_HIERA_FILE'] = File.basename(hierafile, '.yaml')
     ENV['PUPPET_DECRYPT_KEYDIR'] = 'features/fixtures/secretkeys'
-    @output = `puppet apply --noop #{file.path} --hiera_config=features/fixtures/hiera.yaml`
+    puppet_version = `bundle exec puppet --version`
+    puppet_command = "bundle exec puppet apply --noop #{file.path}"
+    puppet_command = "#{puppet_command} --hiera_config=features/fixtures/hiera.yaml" if puppet_version.match /^3/
+    puppet_command = "#{puppet_command} --confdir=features/fixtures" if puppet_version.match /^2/
+    @output = `#{puppet_command}`
     puts @output
   ensure
     file.unlink
