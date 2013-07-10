@@ -11,6 +11,7 @@ Gem::Specification.new do |gem|
   gem.description   = %q{A gem for encrypting/decrypting secret values for use with Puppet}
   gem.summary       = %q{A shared secret strategy that works with any data source}
   gem.homepage      = "https://github.com/maxlinc/puppet-decrypt"
+  gem.required_ruby_version = '>= 1.9.0'
 
   gem.files         = `git ls-files`.split($/)
   gem.executables   = gem.files.grep(%r{^bin/}).map{ |f| File.basename(f) }
