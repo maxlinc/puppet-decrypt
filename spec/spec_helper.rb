@@ -1,6 +1,7 @@
 # -*- encoding : utf-8 -*-
 require 'rspec-puppet'
 require 'puppet-decrypt'
+require 'rspec/mocks'
 
 module SecretKeyHelper
   def mock_secret_key(filename, secret)
