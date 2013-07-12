@@ -3,10 +3,16 @@
 - [Puppet-Decrypt](#puppet-decrypt)
 	- [Comparison with Hiera-GPG](#comparison-with-hiera-gpg)
 	- [Installation](#installation)
+		- [Via Gem](#via-gem)
+		- [Installing as a Module](#installing-as-a-module)
 	- [Usage](#usage)
 		- [Basic Usage](#basic-usage)
 		- [Overriding the secret key](#overriding-the-secret-key)
 	- [Contributing](#contributing)
+
+[![Build Status](https://secure.travis-ci.org/maxlinc/puppet-decrypt.png?branch=master)](http://travis-ci.org/maxlinc/puppet-decrypt)
+[![Dependency Status](https://gemnasium.com/maxlinc/puppet-decrypt.png?travis)](https://gemnasium.com/maxlinc/puppet-decrypt)
+[![Code Climate](https://codeclimate.com/github/maxlinc/puppet-decrypt.png)](https://codeclimate.com/github/maxlinc/puppet-decrypt)
 
 # Puppet-Decrypt
 
@@ -32,6 +38,10 @@ The shared secret "master password" may seem more difficult to grant and revoke 
 
 ## Installation
 
+### Via Gem
+
+It should be possible to install via a Gem in Puppet 3+.  However, this method is easier, but does seem to have some quirks.  If you have any issues, try installing as a module instead.
+
 Add this line to your application's Gemfile:
 
     gem 'puppet-decrypt'
@@ -43,6 +53,43 @@ And then execute:
 Or install it yourself as:
 
     $ gem install puppet-decrypt
+
+### Installing as a Module
+
+If installing as a module, you'll need to deal with the Gem prerequisites manually.
+
+``` shell
+$ gem install encryptor
+```
+
+Puppet Decrypt can be installed with the puppet module subcommand, which is included in Puppet 2.7.14 and later.
+
+``` shell
+$ sudo puppet module install puppet_decrypt
+```
+The command will tell you where it is installing the module; take note:
+
+``` shell
+$ sudo puppet module install devopsy/puppet_decrypt
+warning: iconv couldn't be loaded, which is required for UTF-8/UTF-16 conversions
+Preparing to install into /etc/puppet/modules ...
+Downloading from http://forge.puppetlabs.com ...
+Installing -- do not interrupt ...
+/etc/puppet/modules
+└── devopsy-puppet_decrypt (v0.1.0)
+```
+
+After installing it, you must add the lib directory of the module to your $RUBYLIB. Add the following to your .profile file (replacing /etc/puppet/modules with the directory from the install command, if necessary), then run source ~/.profile to re-load it in the current shell:
+
+``` shell
+export RUBYLIB=/etc/puppet/modules/puppet_decrypt/lib:$RUBYLIB
+```
+
+You can verify that it is installed and usable by running:
+
+``` shell
+# puppet help crypt
+```
 
 ## Usage
 
