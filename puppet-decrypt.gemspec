@@ -30,10 +30,7 @@ This was done to more easily support multiple keys.  If you are upgrading from a
   gem.add_dependency('encryptor')
   gem.add_development_dependency('rake')
   gem.add_development_dependency('cucumber')
-  gem.add_development_dependency('relish')
   gem.add_development_dependency('rspec')
   gem.add_development_dependency('rspec-puppet', '~> 0.1.6')
   gem.add_development_dependency('puppetlabs_spec_helper')
-  gem.add_development_dependency('pry')
-  gem.add_development_dependency('pry-nav')
 end
