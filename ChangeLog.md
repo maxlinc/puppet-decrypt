@@ -1,3 +1,9 @@
+## 0.1.1 (Jan 24, 2014)
+
+Bugfixes:
+
+  - Add Ruby 1.8.7 support.
+
 ## 0.1.0 (July 10, 2013)
 
 Features:
