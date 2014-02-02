@@ -12,7 +12,7 @@ When /^I execute this puppet manifest:$/ do |manifest|
   begin
     file.write(manifest)
     file.close
-    ENV['FACTER_HIERA_FILE'] = File.basename(hierafile, '.yaml')
+    ENV['FACTER_HIERA_FILE'] = File.basename(hierafile.path, '.yaml')
     ENV['PUPPET_DECRYPT_KEYDIR'] = 'features/fixtures/secretkeys'
     puppet_version = `bundle exec puppet --version`
     puppet_command = "bundle exec puppet apply --noop #{file.path}"
