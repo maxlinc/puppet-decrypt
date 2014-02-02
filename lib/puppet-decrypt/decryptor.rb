@@ -2,7 +2,7 @@ module Puppet
   module Decrypt
 
     class Decryptor
-      ENCRYPTED_PATTERN = /^ENC:?(.*)\[(.*)\]$/
+      ENCRYPTED_PATTERN = /^ENC:?(\w*)\[(.*)\]$/
       KEY_DIR = ENV['PUPPET_DECRYPT_KEYDIR'] || '/etc/puppet-decrypt'
       DEFAULT_KEY = 'encryptor_secret_key'
       DEFAULT_FILE = File.join(KEY_DIR, DEFAULT_KEY)
