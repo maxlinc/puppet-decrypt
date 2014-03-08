@@ -6,6 +6,9 @@ rvm:
   - jruby-19mode
   - 2.0.0
   - 2.1.0
+allow_failures:
+  rvm:
+    - 2.1.0 # PUP-1243
 gemfile:
   - Gemfile
   - bundles/puppet_3_0.gemfile

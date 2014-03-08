@@ -28,17 +28,24 @@ module Puppet
           end
         end
         if match
+          value, salt = value.split ':'
           value = strict_decode64(value)
-          value = value.decrypt(:key => secret_key_digest)
+          if salt
+            value = value.decrypt(:key => secret_key_digest).gsub(/\A#{salt}/, '')
+          else
+            $stderr.puts "Warning: re-encrypt with puppet-crypt to use salted passwords"
+            value = value.decrypt(:key => secret_key_digest)
+          end
         end
         value
       end
 
-      def encrypt(value, secret_key_file = nil)
+      def encrypt(value, secret_key_file, salt)
         secret_key_file ||= secret_key_for value
         secret_key_digest = digest_from secret_key_file
-        result = value.encrypt(:key => secret_key_digest)
+        result = "#{salt}#{value}".encrypt(:key => secret_key_digest)
         encrypted_value = strict_encode64(result).strip
+        encrypted_value = "#{encrypted_value}:#{salt}"
         encrypted_value = "ENC[#{encrypted_value}]" unless @raw
         raise "Value can't be encrypted properly" unless decrypt(encrypted_value, secret_key_file) == value
         encrypted_value

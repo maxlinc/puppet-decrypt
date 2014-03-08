@@ -23,6 +23,10 @@ Puppet::Face.define(:crypt, Puppet::Decrypt::VERSION) do
     summary "The path to the secret key file (default: #{Puppet::Decrypt::Decryptor::DEFAULT_FILE}"
   end
 
+  option "--salt SALT" do
+    summary "The salt to use during encryption (default is random)"
+  end
+
   action :encrypt do
     summary 'Encrypt a secret value.'
     arguments "<plaintext_secret>"
@@ -30,8 +34,9 @@ Puppet::Face.define(:crypt, Puppet::Decrypt::VERSION) do
       This action encrypts a value using the secret key.
     EOT
     when_invoked do |plaintext_secret, options|
+      salt = options.delete(:salt) || SecureRandom.uuid
       secretkey = options[:secretkey]
-      Puppet::Decrypt::Decryptor.new(options).encrypt(plaintext_secret, secretkey)
+      Puppet::Decrypt::Decryptor.new(options).encrypt(plaintext_secret, secretkey, salt)
     end
   end
 
