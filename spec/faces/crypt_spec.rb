@@ -17,6 +17,16 @@ describe Puppet::Face[:crypt, :current] do
         encrypted = subject.encrypt('flabberghaster')
         subject.decrypt(encrypted).should == 'flabberghaster'
       end
+      it 'is decryptable with minimum args with a salt' do
+        salt = SecureRandom.base64
+        encrypted = subject.encrypt('flabberghaster', {:salt => salt})
+        subject.decrypt(encrypted).should == 'flabberghaster'
+      end
+      it 'is decryptable with problematic salt (regexp chars)' do
+        salt = 'R8STny+9cq03ujQGiKDd9w=='
+        encrypted = subject.encrypt('flabberghaster', {:salt => salt})
+        subject.decrypt(encrypted).should == 'flabberghaster'
+      end
       it 'with ENC[...]' do
         subject.encrypt('flabberghaster', insecure_opts).should == 'ENC[KPQvuDjlC+LBmd07S/kyckDO0gDBZ1VZDuWOckmpX9Q=:1234567890]'
       end

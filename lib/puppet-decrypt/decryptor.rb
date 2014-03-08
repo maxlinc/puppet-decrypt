@@ -31,7 +31,7 @@ module Puppet
           value, salt = value.split ':'
           value = strict_decode64(value)
           if salt
-            value = value.decrypt(:key => secret_key_digest).gsub(/\A#{salt}/, '')
+            value = value.decrypt(:key => secret_key_digest).gsub(/\A#{Regexp.quote(salt)}/, '')
           else
             $stderr.puts "Warning: re-encrypt with puppet-crypt to use salted passwords"
             value = value.decrypt(:key => secret_key_digest)
@@ -47,11 +47,15 @@ module Puppet
         encrypted_value = strict_encode64(result).strip
         encrypted_value = "#{encrypted_value}:#{salt}"
         encrypted_value = "ENC[#{encrypted_value}]" unless @raw
-        raise "Value can't be encrypted properly" unless decrypt(encrypted_value, secret_key_file) == value
+        raise "Value can't be encrypted properly with salt #{salt}" unless decrypt(encrypted_value, secret_key_file) == value
         encrypted_value
       end
 
       private
+      def load_key(secret_key_file)
+        Puppet::Decrypt.key_loader.load_key secret_key_file
+      end
+
       def secret_key_for(value)
         match = value.match(ENCRYPTED_PATTERN)
         if match
@@ -63,8 +67,7 @@ module Puppet
       end
 
       def digest_from(secret_key_file)
-        raise "Secret key file: #{secret_key_file} is not readable!" unless File.readable?(secret_key_file)
-        secret_key = File.open(secret_key_file, &:readline).chomp
+        secret_key = load_key secret_key_file
         Digest::SHA256.hexdigest(secret_key)
       end
 

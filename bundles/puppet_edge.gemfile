@@ -1,0 +1,5 @@
+source 'https://rubygems.org'
+
+# Specify your gem's dependencies in puppet-decrypt.gemspec
+gem 'puppet', :git => 'https://github.com/puppetlabs/puppet'
+gemspec(:path => '../')

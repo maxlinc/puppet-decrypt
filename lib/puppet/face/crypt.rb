@@ -34,7 +34,7 @@ Puppet::Face.define(:crypt, Puppet::Decrypt::VERSION) do
       This action encrypts a value using the secret key.
     EOT
     when_invoked do |plaintext_secret, options|
-      salt = options.delete(:salt) || SecureRandom.uuid
+      salt = options.delete(:salt) || SecureRandom.base64
       secretkey = options[:secretkey]
       Puppet::Decrypt::Decryptor.new(options).encrypt(plaintext_secret, secretkey, salt)
     end

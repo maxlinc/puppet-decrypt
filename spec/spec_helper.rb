@@ -1,12 +1,14 @@
 # -*- encoding : utf-8 -*-
 require 'rspec-puppet'
+require 'puppet-decrypt/fake_key_loader'
 require 'puppet-decrypt'
 require 'rspec/mocks'
 
+Puppet::Decrypt.key_loader = Puppet::Decrypt::FakeKeyLoader.new
+
 module SecretKeyHelper
   def mock_secret_key(filename, secret)
-    File.should_receive(:readable?).with(filename).and_return(true)
-    File.should_receive(:open).with(filename).and_return(secret)
+    Puppet::Decrypt.key_loader.add_secret(filename, secret)
   end
 end
 
