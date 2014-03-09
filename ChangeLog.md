@@ -1,8 +1,10 @@
 ## 0.1.1 (Jan 24, 2014)
 
-Bugfixes:
+Enhancements:
+  - Salting to protect against dictionary and rainbow table attacks.
 
-  - Add Ruby 1.8.7 support.
+Bugfixes:
+  - Fix Ruby 1.8.7 support.
 
 ## 0.1.0 (July 10, 2013)
 
