@@ -17,7 +17,7 @@ Feature: Puppet works
     Given I have the following hiera data:
       """
       ---
-        db_password: ENC[9G9csZzrye5zELrUlxkD2g==:1234567890]
+        db_password: ENC[HOz0/aHCjJTAUlEbM/pqMQ==:QZy2oTvQNhwFMmOARn+Jlw==:aUY1NjBqamp6RWs1UkYvVjVULzNvdz09]
       """
     When I execute this puppet manifest:
       """
@@ -30,7 +30,7 @@ Feature: Puppet works
     Given I have the following hiera data:
       """
       ---
-        db_password: ENC:alt_key[TQAbFNVPuH82z2tVHWXuB0jYy7YhLzQGiYlqkL8TClc=:1234567890]
+        db_password: ENC:alt_key[KgLJnDVF9VeTGGU/vG2KjQ==:NiLhgUn4JL07DI9trGSK8g==:YlVhZDhDSEZsSDV6RnBOdm1FMmVtQT09]
       """
     When I execute this puppet manifest:
       """
@@ -44,7 +44,7 @@ Feature: Puppet works
       """
       ---
         db_password:
-          value: 'ENC[IRJVl4MV9APWGaKVnCMFKFVIjPbSYegX+TKwZ69FzZg=:1234567890]'
+          value: 'ENC[AVdi08NXUveKStMSAH4kMQ==:EAHeMe3TvK33gjnDDHV5rQ==:cndoVVBhMWdXQW5HVSsxWDN4OUtRZz09]'
           secretkey: 'features/fixtures/other_secretkeys/secondary_key'
       """
     When I execute this puppet manifest:

@@ -5,8 +5,11 @@ require 'puppet/face'
 MINIMUM_IV_LENGTH = 20
 describe Puppet::Face[:crypt, :current] do
   let(:insecure_opts) do
-    {:salt => '1234567890'}
+    { :salt => '1234567890', :iv => '5'*20 }
   end
+  # Values above, encoded
+  let(:base64_salt) { 'MTIzNDU2Nzg5MA==' }
+  let(:base64_iv)   { 'NTU1NTU1NTU1NTU1NTU1NTU1NTU=' }
   before :all do
     mock_secret_key(Puppet::Decrypt::Decryptor::DEFAULT_FILE, 'masterkey')
   end
@@ -28,16 +31,19 @@ describe Puppet::Face[:crypt, :current] do
         subject.decrypt(encrypted).should == 'flabberghaster'
       end
       it 'with ENC[...]' do
-        subject.encrypt('flabberghaster', insecure_opts).should == 'ENC[KPQvuDjlC+LBmd07S/kyckDO0gDBZ1VZDuWOckmpX9Q=:1234567890]'
+        expected_value = "ENC[7u523Z+PpqSm58+BeiN4qw==:#{base64_iv}:#{base64_salt}]"
+        subject.encrypt('flabberghaster', insecure_opts).should == expected_value 
       end
 
       it 'with --raw' do
-        subject.encrypt('flabberghaster', {:raw => true}.merge(insecure_opts)).should == 'KPQvuDjlC+LBmd07S/kyckDO0gDBZ1VZDuWOckmpX9Q=:1234567890'
+        expected_value = "7u523Z+PpqSm58+BeiN4qw==:#{base64_iv}:#{base64_salt}"
+        subject.encrypt('flabberghaster', {:raw => true}.merge(insecure_opts)).should == expected_value
       end
 
       it 'with --secretkey' do
         mock_secret_key('/etc/another_key', 'anotherkey')
-        subject.encrypt('flabberghaster', {:secretkey => '/etc/another_key'}.merge(insecure_opts)).should == 'ENC[q5+72OWXTsycu43GcJ16vaMCtAMeWhrLofBTeabsmt8=:1234567890]'
+        expected_value = "ENC[81crlXmuzSnld3+4YUkQYg==:#{base64_iv}:#{base64_salt}]"
+        subject.encrypt('flabberghaster', {:secretkey => '/etc/another_key'}.merge(insecure_opts)).should == expected_value
       end
     end
   end

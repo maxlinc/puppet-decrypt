@@ -23,6 +23,10 @@ Puppet::Face.define(:crypt, Puppet::Decrypt::VERSION) do
     summary "The path to the secret key file (default: #{Puppet::Decrypt::Decryptor::DEFAULT_FILE}"
   end
 
+  option "--iv IV" do
+    summary "The initialization vector to use during encryption (default is random)"
+  end
+
   option "--salt SALT" do
     summary "The salt to use during encryption (default is random)"
   end
@@ -34,9 +38,10 @@ Puppet::Face.define(:crypt, Puppet::Decrypt::VERSION) do
       This action encrypts a value using the secret key.
     EOT
     when_invoked do |plaintext_secret, options|
+      iv   = options.delete(:iv)   || OpenSSL::Cipher::Cipher.new('aes-256-cbc').random_iv
       salt = options.delete(:salt) || SecureRandom.base64
       secretkey = options[:secretkey]
-      Puppet::Decrypt::Decryptor.new(options).encrypt(plaintext_secret, secretkey, salt)
+      Puppet::Decrypt::Decryptor.new(options).encrypt(plaintext_secret, secretkey, salt, iv)
     end
   end
 
