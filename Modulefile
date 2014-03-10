@@ -1,5 +1,5 @@
 name    'devopsy/puppet_decrypt'
-version '0.1.0'
+version '0.1.1'
 source 'https://github.com/maxlinc/puppet-decrypt'
 author 'Max Lincoln'
 license 'Apache License, Version 2.0'
