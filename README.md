@@ -65,7 +65,7 @@ $ gem install encryptor
 Puppet Decrypt can be installed with the puppet module subcommand, which is included in Puppet 2.7.14 and later.
 
 ``` shell
-$ sudo puppet module install puppet_decrypt
+$ sudo puppet module install devopsy-puppet_decrypt
 ```
 The command will tell you where it is installing the module; take note:
 
