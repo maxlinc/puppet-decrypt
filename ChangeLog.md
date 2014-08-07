@@ -1,3 +1,13 @@
+## 0.2.0 (Aug 07, 2014)
+
+Enhancements:
+  - Added an encrypt function (thanks @tioteath!)
+
+Bugfixes:
+  - Fixed handling of absolute paths for to the secret key file (thanks @tioteath!)
+  - Removed unnecessary puts (thanks @tioteath!)
+  - Improved error handling (thanks @tioteath!)
+
 ## 0.1.1 (Jan 24, 2014)
 
 Enhancements:
