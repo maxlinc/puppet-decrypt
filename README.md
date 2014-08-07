@@ -119,6 +119,12 @@ In your puppet code, load the value normally and then pass it to decrypt.
 decrypt(hiera('database_password'))
 ```
 
+Or encrypt a secret passing it to encrypt, if you need to save the secret to
+external storage, for example.
+``` ruby
+$encrypted_secret_to_save = encrypt($data)
+```
+
 ### Overriding the secret key
 
 Puppet Decrypt now supports using more than just the default secret key location.  You can easily use multiple secret keys for the same project.

@@ -12,8 +12,16 @@ module Puppet
       end
 
       def decrypt_hash(hash)
-        puts "Decrypting value: #{hash['value']}, secretkey: #{hash['secretkey']}"
-        decrypt(hash['value'], hash['secretkey'])
+        decrypt(hash['value'], hash['secretkey']  || hash['secret_key'])
+      end
+
+      def encrypt_hash(hash)
+        secret_key = hash['secretkey'] || hash['secret_key'] ||
+            File.join(KEY_DIR, DEFAULT_KEY)
+        salt = hash['salt'] || SecureRandom.base64
+        iv = hash['iv'] || OpenSSL::Cipher::Cipher.new('aes-256-cbc').random_iv
+
+        encrypt(hash['value'], secret_key, salt, iv)
       end
 
       def decrypt(value, secret_key_file)

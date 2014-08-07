@@ -41,6 +41,10 @@ Puppet::Face.define(:crypt, Puppet::Decrypt::VERSION) do
       iv   = options.delete(:iv)   || OpenSSL::Cipher::Cipher.new('aes-256-cbc').random_iv
       salt = options.delete(:salt) || SecureRandom.base64
       secretkey = options[:secretkey]
+      unless secretkey.nil?
+        secretkey = File.expand_path(secretkey) if secretkey.start_with? '.'
+      end
+
       Puppet::Decrypt::Decryptor.new(options).encrypt(plaintext_secret, secretkey, salt, iv)
     end
   end
