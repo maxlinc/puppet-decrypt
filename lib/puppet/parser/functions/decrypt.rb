@@ -10,7 +10,7 @@ module Puppet::Parser::Functions
     elsif args.first.is_a? Hash
       decrypt_args = args.first
     else
-      raise TypeError, "Excpected String or Hash, given #{args.first.class}"
+      raise TypeError, "Expected String or Hash, given #{args.first.class}"
     end
 
     Puppet::Decrypt::Decryptor.new(options).decrypt_hash(decrypt_args)
